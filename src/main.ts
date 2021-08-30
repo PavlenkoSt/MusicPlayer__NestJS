@@ -5,9 +5,7 @@ const start = async () => {
     try{
         const PORT = process.env.PORT || 5000;
         const app = await NestFactory.create(AppModule);
-        await app.listen(PORT, () => {
-            console.log(`SERVER STARTED ON PORT: ${PORT}`);
-        });
+        await app.listen(PORT, () => console.log(`SERVER STARTED ON PORT: ${PORT}`));
     }catch(e){
         console.log(e);
     }
