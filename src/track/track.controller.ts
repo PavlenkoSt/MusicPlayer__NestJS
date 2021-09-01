@@ -1,5 +1,6 @@
+import { CreateTrackDTO } from './dto/create-track.dto';
 import { TrackService } from './track.service';
-import { Controller, Get } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
 
 
 @Controller('/tracks')
@@ -8,6 +9,11 @@ export class TrackController{
     
     @Get()
     getAll() {
-        return this.trackService.getAll()
+        return this.trackService.getAll();
+    }
+
+    @Post()
+    create(@Body() dto: CreateTrackDTO) {
+        return this.trackService.create(dto);
     }
 }

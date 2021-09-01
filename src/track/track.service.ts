@@ -1,3 +1,4 @@
+import { CreateTrackDTO } from './dto/create-track.dto';
 import { Comments, CommentsDocument } from './schemas/comments.schema';
 import { Track, TrackDocument } from './schemas/track.schema';
 import { Injectable } from "@nestjs/common";
@@ -12,10 +13,13 @@ export class TrackService {
         @InjectModel(Comments.name) private commentsModel: Model<CommentsDocument>
     ) {}
 
-    async create() {
+    async create(dto: CreateTrackDTO): Promise<Track> {
         const track = await this.trackModel.create({
-            
-        })
+            ...dto,
+            listens: 0
+        });
+        
+        return track;
     }
 
     async getAll() {

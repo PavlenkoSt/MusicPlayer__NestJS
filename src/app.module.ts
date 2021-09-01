@@ -4,10 +4,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
     imports: [
-        MongooseModule.forRoot('mongodb+srv://admin:admin@cluster0.19tcc.mongodb.net/Music-player?retryWrites=true&w=majority'),
+        MongooseModule.forRoot('mongodb+srv://admin:admin@cluster0.mrtdx.mongodb.net/music-player-turk-ip?retryWrites=true&w=majority'),
         TrackModule
     ]
 })
-export class AppModule{
-    
-}
+export class AppModule{}
