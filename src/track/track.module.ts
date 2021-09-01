@@ -1,3 +1,4 @@
+import { FileService } from './../file/file.service';
 import { Comments, CommentsSchema } from './schemas/comments.schema';
 import { TrackService } from './track.service';
 import { TrackController } from './track.controller';
@@ -12,6 +13,6 @@ import { Track, TrackSchema } from './schemas/track.schema';
         MongooseModule.forFeature([{ name: Comments.name, schema: CommentsSchema}])
     ],
     controllers: [TrackController],
-    providers: [TrackService]
+    providers: [TrackService, FileService]
 })
 export class TrackModule{}

@@ -1,3 +1,4 @@
+import { FileService, FileType } from './../file/file.service';
 import { CreateCommentDTO } from './dto/create-comment.dto';
 import { CreateTrackDTO } from './dto/create-track.dto';
 import { Comments, CommentsDocument } from './schemas/comments.schema';
@@ -11,11 +12,15 @@ import { Model, ObjectId } from 'mongoose';
 export class TrackService {
     constructor(
         @InjectModel(Track.name) private trackModel: Model<TrackDocument>,
-        @InjectModel(Comments.name) private commentsModel: Model<CommentsDocument>
+        @InjectModel(Comments.name) private commentsModel: Model<CommentsDocument>,
+        private fileService: FileService
     ) {}
 
-    async create(dto: CreateTrackDTO): Promise<Track> {
-        const track = await this.trackModel.create({ ...dto, listens: 0 });
+    async create(dto: CreateTrackDTO, audio, picture): Promise<Track> {
+        const audioPath = this.fileService.createFile(FileType.AUDIO, audio);
+        const picturePath = this.fileService.createFile(FileType.IMAGE, picture);
+
+        const track = await this.trackModel.create({ ...dto, listens: 0, audio: audioPath, picture: picturePath });
         return track;
     }
 
