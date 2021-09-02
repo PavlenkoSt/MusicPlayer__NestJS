@@ -1,6 +1,6 @@
 import { CreateTrackDTO } from './dto/create-track.dto';
 import { TrackService } from './track.service';
-import { Body, Controller, Delete, Get, Param, Post, UploadedFiles, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, UploadedFiles, UseInterceptors, Query } from "@nestjs/common";
 import { ObjectId } from 'mongoose';
 import { CreateCommentDTO } from './dto/create-comment.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
@@ -11,8 +11,11 @@ export class TrackController{
     constructor(private trackService: TrackService){}
     
     @Get()
-    getAll() {
-        return this.trackService.getAll();
+    getAll(
+        @Query('count') count: number,
+        @Query('offset') offset: number
+    ) {
+        return this.trackService.getAll(count, offset);
     }
 
     @Post()
@@ -38,5 +41,10 @@ export class TrackController{
     @Post('/comment')
     addComment(@Body() dto: CreateCommentDTO) {
         return this.trackService.addComment(dto);
+    }
+
+    @Post('/listen/:id')
+    listen(@Param('id') id: ObjectId) {
+        return this.trackService.listen(id);
     }
 }
