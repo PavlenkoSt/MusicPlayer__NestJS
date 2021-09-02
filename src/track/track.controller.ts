@@ -18,6 +18,16 @@ export class TrackController{
         return this.trackService.getAll(count, offset);
     }
 
+    @Get('/search')
+    search(@Query('query') query: string) {
+        return this.trackService.search(query);
+    }
+
+    @Get(':id')
+    getOne(@Param('id') id: ObjectId) {
+        return this.trackService.getOne(id);
+    }
+
     @Post()
     @UseInterceptors(FileFieldsInterceptor([
         { name: 'picture', maxCount: 1 },
@@ -26,11 +36,6 @@ export class TrackController{
     create(@UploadedFiles() files, @Body() dto: CreateTrackDTO) {
         const { picture, audio } = files;
         return this.trackService.create(dto, audio[0], picture[0]);
-    }
-
-    @Get(':id')
-    getOne(@Param('id') id: ObjectId) {
-        return this.trackService.getOne(id);
     }
 
     @Delete(':id')
@@ -48,10 +53,5 @@ export class TrackController{
         return this.trackService.listen(id);
     }
 
-    @Get()
-    search(
-        @Query('query') query: string
-    ) {
-        return this.trackService.search(query);
-    }
+    
 }
