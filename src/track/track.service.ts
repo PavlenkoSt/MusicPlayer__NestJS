@@ -6,6 +6,7 @@ import { Track, TrackDocument } from './schemas/track.schema';
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, ObjectId } from 'mongoose';
+import fs from 'fs';
 
 
 @Injectable()
@@ -35,6 +36,11 @@ export class TrackService {
     }
 
     async delete(id: ObjectId): Promise<ObjectId> {
+        const targetTrack = await this.trackModel.findById(id);
+        
+        this.fileService.removeFile(targetTrack.picture);
+        this.fileService.removeFile(targetTrack.audio);
+
         const track = await this.trackModel.findByIdAndDelete(id);
         return track._id;
     }

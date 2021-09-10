@@ -28,6 +28,11 @@ export class FileService{
     }
 
     removeFile(fileName: string){
-
+        try{
+            const filePath = path.resolve(__dirname, '..', 'static', fileName);
+            fs.unlink(filePath, (err) => console.log(err));
+        }catch(e){
+            throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
